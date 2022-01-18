@@ -1,0 +1,286 @@
+%
+% 6.006 problem set 1 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{1}
+
+\title{6.006 Problem Set 1}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Vivek Verma
+
+\medskip
+
+{\bf Collaborators:} None
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+$(f_5, f_3, f_4, f_1, f2)$
+\problempart % Problem 1b
+$(f_1, f_2, f_5, f_4, f_3)$
+\problempart % Problem 1c
+$(\{f_2, f_5\}, f_4, f_1, f_3)$
+\problempart % Problem 1d
+$(f_5, f_3, f_4, f_2, f_1)$ \quad WRONG \\
+$(f_5, f_2, f_1, f_3, f_4)$ \quad From solution
+\end{problemparts}
+
+\newpage
+\problem  % Problem 2
+
+\begin{problemparts}
+\problempart % Problem 2a
+\problempart % Problem 2b
+\end{problemparts}
+
+\newpage
+\problem  % Problem 3
+
+\newpage
+\problem  % Problem 4
+
+\begin{problemparts}
+\problempart % Problem 4a
+$insert\_first(x)$ \\
+Create a Node containing the item x. \\
+Check the head of the list to see if list is empty. \\
+If list is empty, set the Node as head and tail of the list and return. \\
+If list is non-empty, get the head of the list called $first$, Connect $first$ as next element of $x$ and $x$ as previous element of $first$. \\ 
+Set the head of the list to $x$. \\ \\
+$insert\_last(x)$ \\
+Create a Node containing the item x. \\
+Check the tail of the list to see if list empty. \\
+If list is empty, set the Node as head and tail of the list and return. \\
+If list is non-empty, get the tail of list called $last$,
+Connect $last$ as previous element of $x$ and $x$ as next element of $last$.\\
+Set the tail of the list to $x$. \\ \\
+
+$delete\_first()$ \\
+Get the first two elements as $first$ and $second$. \\
+Set $second$ as the head of the list and set $second.prev$ as None. \\
+Return $first.item$. \\ \\ 
+
+$delete\_last()$ \\
+Get the last two elements as $last$ and $second\_last$. \\
+Set $second\_last$ as tail of the list and set $second\_last.next$ as None. \\
+Return $last.item$. \\
+
+\newpage
+\problempart % Problem 4b
+Construct a new empty list $L2$. \\
+There are four cases based on the location of $x_1$ and $x_2$ in the list: \\
+\begin{enumerate}
+    \item Neither $x_1$ is head nor $x_2$ is tail: \\
+    \hspace*{3em} Connect the element before $x_1$ to the element after $x_2$.
+    \item $x_1$ is the head: \\
+    \hspace*{3em} Set the head of the list to the element after $x_2$ and set the previous element of head as None.
+    \item $x_2$ is the tail: \\
+    \hspace*{3em} Set the tail of the list to the element before and set the next element of tail as None.
+    \item $x_1$ is the head and $x_2$ is the tail: \\
+    \hspace*{3em} Set the head and tail of the list to None.
+\end{enumerate}
+
+Independent of which case above was executed, \\
+Set the previous element of $x_1$ and next element of $x_2$ as None. \\
+Set the head of $L2$ to $x_1$ and the tail of $L2$ to $x_2$. \\
+
+\problempart % Problem 4c
+If $L2$ is an empty list, nothing needs to be done, hence return None. \\
+Otherwise, \\
+Get the element after $x$ in a variable $x\_next$. \\
+Set the next element of $x$ to head of $L2$ and previous element of $L2.head$ to $x$. \\
+
+If $x\_next$ is not None, Set previous element of $x\_next$ to tail of $L2$ and next next element of $L2's$ tail to $x\_next$. \\
+Set the tail of $L$ as tail of $L2$. \\
+Set head and tail of $L2$ to None. \\
+\newpage
+\problempart 
+\\
+\begin{lstlisting}
+    def insert_first(self, x):
+        # create node with item x
+        x = Doubly_Linked_List_Node(x)
+
+        # if list is empty, add x as only element
+        if self.head is None:
+            self.head = x
+            self.tail = x
+            return
+
+        # get the first element and connect it to x
+        first = self.head
+        first.prev = x
+
+        # connect x to first
+        x.next = first
+
+        # set x as the head
+        self.head = x
+
+    def insert_last(self, x):
+        # create node with item x
+        x = Doubly_Linked_List_Node(x)
+
+        # if list is empty add, x as the only element
+        if self.tail is None:
+            self.tail = x
+            self.head = x
+
+        # get the last element and connect it to x
+        last = self.tail
+        last.next = x
+
+        # connect x to last element
+        x.prev = last
+
+        # set x as the tail
+        self.tail = x
+
+    def delete_first(self):
+        # get first two elements
+        first = self.head
+        second = first.next
+
+        # set second element as head ot the list
+        second.prev = None
+        self.head = second
+        return first.item
+
+    def delete_last(self):
+        # get last two elements
+        last = self.tail
+        second_last = last.prev
+
+        # set second last element as tail of the list
+        second_last.next = None
+        self.tail = second_last
+        return last.item
+
+    def remove(self, x1, x2):
+        L2 = Doubly_Linked_List_Seq()
+
+        # Neither x1 nor x2 is the head or tail
+        if x1.prev is not None and x2.next is not None:
+            # connect the element before x1 to the element after x2
+            x1.prev.next = x2.next
+            x2.next.prev = x1.prev
+        # if x1 is the head but x2 is not tail
+        elif x1.prev is None and x2.next is not None:
+            # disconnect elements x1 to x2 from the list
+            self.head = x2.next
+            self.head.prev = None
+        # if x2 is the tail but x1 is not head
+        elif x2.next is None and x1.prev is not None:
+            # disconnect elements from x1 to x2 from the list
+            self.tail = x1.prev
+            self.tail.next = None
+        # x1 is head and x2 is tail
+        else:
+            self.head = None
+            self.tail = None
+
+        # disconnect the links to any element before x1 and any elment
+        x1.prev = None
+        x2.next = None
+
+        # set the head and tail of L2
+        L2.head = x1
+        L2.tail = x2
+        return L2
+
+    def splice(self, x, L2):
+        # if L2 is empty, return None
+        if L2.head is None:
+            return
+        
+        # get the element after x
+        x_next = x.next
+
+        # connect x to head of L2
+        x.next = L2.head
+        L2.head.prev = x
+
+        # there was an element after x, connect it to tail of L2
+        if x_next is not None:
+            x_next.prev = L2.tail
+            L2.tail.next = x_next
+
+        # set the tail of current list as tail of L2
+        self.tail = L2.tail
+
+        # remove all elements from L2
+        L2.head = None
+        L2.tail = None
+\end{lstlisting}
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
