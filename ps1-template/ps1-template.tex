@@ -97,12 +97,128 @@ $(f_5, f_2, f_1, f_3, f_4)$ \quad From solution
 
 \begin{problemparts}
 \problempart % Problem 2a
+Solving recursively: \\
+\textbf{Base case}: If $k$ is $<= 1$, then nothing needs to be done. Hence return.\\
+\textbf{Recursive case}: If $k$ is $>1$,\\
+Swap the elements at index $i$ and $i+k-1$ \\
+Two elements are reversed, the remaining elements to reverse are $k-2$ and the starting index now will be $i+1$. \\
+Increment $i$ by 1 and $k$ by 2. \\
+Call the function recursively with new $i$ and $k$ \\
+The correctness of this algorithm can be proved by induction. \\
+Swapping the elements take O(log(n)) time because constant number of insertion and deletion are used for swapping. \\
+And k is reduced by 2 in each recursive call, So there will be atmost k/2 recursion calls. Therefore the time complexity is O(klog(n))
+
+\begin{lstlisting}
+    def reverse(D, i, k):
+        if k <= 1:
+            return
+        right = D.delete_at(i+k-1)
+        left = D.delete_at(i)
+        D.insert_at(i, right)
+        D.insert_at(i+k-1, left)
+        
+        reverse(D, i+1, k-2)
+\end{lstlisting}
+
+\newpage
 \problempart % Problem 2b
+Solving recursively: \\
+\textbf{Base case:} If k is 0, nothing needs to be done. Hence return. \\
+\textbf{Recursive case:} If k is greater than 0, \\
+Delete the element at index i. and subtract 1 from k. \\
+
+There are two cases: \\
+1. $j > i$ \\
+After deletion of element at index i, all the elements after i will be shifted left by 1 and there indices are reduced by 1. \\
+Insert the element at at index $j-1$ \\
+Call the function recursively. \\ \\
+2. Otherwise, \\
+Insert the element at index j. \\
+The next element to be moved is now at index i+1 and the next index to which it will be moved is at index j + 1. \\
+Increment i by 1. \\
+Increment j by 1. \\
+Call the function recursively. \\
+
+Insertion and deletion takes O(log(n)) time and k is reduced by 1 with each recursive call, So maximum recursive calls will be atmost k. And hence, the time complexity is O(klog(n)). \\
+\begin{lstlisting}
+    def move(D, i, k, j):
+        x = D.delete_at(i)
+        k -= 1
+        if j > i:
+            D.insert_at(j-1)
+            move(D, i, k, j)
+        else:
+            D.insert_at(j)
+            i += 1
+            j += 1
+            move(D, i, k, j)
+        
+\end{lstlisting}
 \end{problemparts}
 
 \newpage
-\problem  % Problem 3
+\problem  % Problem 3 
+\textit{--- After looking at solution ---} \\
+Before placing the bookmarks, the pages can be stored in a static array of size $n$. \\
+$read\_page(i)$ operation takes O(1) time to return a page at index $i$. \\
 
+To place the bookmarks, three new dynamic arrays $A_1, A_2\ and\  A_3$ will be created: \\
+$A_1$ contains the pages before bookmark $A$ \\
+$A_2$ contains the pages between bookmarks $A$ and $B$. \\
+$A_3$ contains the pages after bookmark $B$. \\
+
+Building the dynamic arrays takes linear time. Therefore, $place\_mark(i, m)$ operation will take O(n) in worst case. \\
+
+Also initialize 4 indices variables $a_1, a_2, b_1\ and\ b_2$. \\
+$a_1$ points to the end of $A_1$ \\
+$a_2$ points to the start of $A_2$ \\
+$b_1$ points to the end of $A_2$ \\
+$b_2$ points to the start of $A_3$ \\
+\\
+$A_1$ supports following operations:
+\begin{itemize}
+    \item insert\_last()
+    \item delete\_last()
+\end{itemize}
+
+$A_2$ supports following operations: 
+\begin{itemize}
+    \item insert\_last()
+    \item delete\_last()
+    \item insert\_first()
+    \item delete\_first()
+\end{itemize}
+
+$A_3$ supports following operations:
+\begin{itemize}
+    \item insert\_first()
+    \item delete\_first()
+\end{itemize}
+
+\newpage
+* $read\_page(i)$: 
+\begin{lstlisting}
+    if i < a_2:
+        return A_1[i]
+    else if i < b_2:
+        return A_2[i - a_2]
+    else:
+        return A_3[i - b_2]
+\end{lstlisting}
+
+$read\_page(i)$ takes O(1) time in worst case. \\
+
+* $shift\_mark(m, d)$: \\
+Moving a page from index $(a_1, a_2, b_1, b_2)$ to the index $(a_2 - 1, a_1 + 1, b_2 - 1, b_1 + 1)$ respectively requires one deletion from a array and one insertion to another array and updating of the indices. \\ 
+An array can be filled completely. In that case, the array can be rebuilt in O(n) time.\\
+
+Therefore, this operation will take amortized O(1) time. \\
+
+* $move\_page(m)$: \\
+Moving the page at $(a_1, b_1)$ to the index $(b_1 + 1, a_1 + 1)$ requires one deletion, one insertion and updating of the indices. \\
+Array can be filled completely. In that case, rebuild operation will be required which takes O(n) time. \\
+
+This operation will also take amortized O(1) time.
 \newpage
 \problem  % Problem 4
 
