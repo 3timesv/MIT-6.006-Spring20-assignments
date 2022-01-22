@@ -1,0 +1,279 @@
+%
+% 6.006 problem set 2 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{2}
+
+\title{6.006 Problem Set 2}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Vivek Verma
+
+\medskip
+
+{\bf Collaborators:} None
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+
+$T(n) = 4(\frac{n}{2}) + O(n)$ \\
+
+\textbf{Master theorem method:} \\
+$a\ =\ 4,\ b\ =\ 2,\ f(n)\ =\ O(n)$ \\
+$n^{log_b a} = n^{log_2 4} = n^2$ \\
+$f(n) = O(n) = O(n^{log_2 4 - \epsilon}) \quad ,where\ \epsilon = 1$ \\
+Since, there exist some $\epsilon$ for which $f(n)$ grows slower than $(n^{log_2 4 - \epsilon})$, Case 1 can be applied here.\\
+$\therefore\ T(n) = \theta(n^2)$ \\
+
+\textbf{Recursion tree method:} \\
+Number of nodes at each level $l = 4^l$ \\
+Cost of each level $l = c. 4^l \left( \frac{n}{2^l}\right)$ \\
+Number of levels = $log_2 n$
+\begin{align*}
+    Total\ cost\ &= \sum_{l=0}^{log_2 n} c 4^l \left( \frac{n}{2^l} \right) \\
+                 &= n \sum_{l=0}^{log_2 n} c 2^l \\
+                 &= cn \left( 2^{log_2 n + 1} - 1\right) \\
+                 &= cn (2n - 1) \\
+                 &= O(n^2) 
+\end{align*}
+The tree has $4^{log_2 n} = n^2$ number of total leaves and the cost of each leaf is $\theta(1)$. \\
+$\therefore$ Total cost is lower bounded by $n^2$.
+
+% \begin{center}
+%   \includegraphics[width=0.5\textwidth]{img.jpg}
+% \end{center}
+\newpage
+\problempart % Problem 1b
+$T(n) = 3 T(\frac{n}{\sqrt{2}}) + O(n^4)$ \
+
+\textbf{Master theorem method:} \\
+$a = 3,\ b = \sqrt{2},\ f(n) = O(n^4)$ \\
+$n^{log_b a} = n^{log_{\sqrt{2}} 3}$ \\
+There cannot be any $\epsilon$  for which $f(n)$ will grow slower than $O(n^{log_{\sqrt{2}} 3 - \epsilon})$ \\
+And there cannot be any $k$ either for which $f(n)$ will behave asymptotically same as $(n^{log_{\sqrt{2}} 3} log^k n)$ \\
+Therefore, case 1 and case 2 cannot be applied. \\
+Since, $f(n)$ grows faster than $n^{log_{\sqrt{2}} 3 + \epsilon}$ for $\epsilon = 1$, and \\
+$3 f(\frac{n}{\sqrt{2}}) < c f(n)$ for $c = 0.9$ \\
+$\therefore T(n) = \theta(n^4)$ \\
+
+\textbf{Recursion tree method:} \\
+Number of nodes at each level $l\ is\ 3^l$ \\
+Cost of each level $l\ is\ c\ 3^l \left( \frac{n}{\sqrt{2}^l} \right)^4$ \\
+Number of levels $= log_{\sqrt{2}} n$ \\
+
+\begin{align*}
+    Total\ cost\ &= \sum_{l=0}^{log_{\sqrt{2}} n} c 3^l \left( \frac{n}{\sqrt{2}^l}\right)^4 \\
+                 &= c n^4 \sum_{l=0}^{log_{\sqrt{2}} n} \left( \frac{3}{4} \right)^l \\
+                 &= c n^4 \left( \frac{1 - (\frac{3}{4})^{log_{\sqrt{2}} n + 1 }}{1 - \frac{3}{4}} \right) \\
+                 &= O(n^4)
+\end{align*}
+
+Since, the number of leaves in the tree are $3^{log_{\sqrt{2}} (n)} = 3^{2 log(n)} = n^{2 log3}$ and cost of each leaf is $\theta(1)$. \\
+$\therefore$ Total cost of T(n) is lower bounded by $n^{2log3}$.
+
+\newpage
+\problempart % Problem 1c
+$T(n) = 2 T(\frac{n}{2}) + 5 n log(n)$ \\
+\textbf{Master theorem method: }\\
+$a = 2,\ b = 2,\ f(n) = 5 n log(n) = \theta(nlog(n))$ \\
+$n^{log_b a} = n^{log_2 2} = n$ \\
+since $f(n) = \theta(n^{log_2 2} log^k n)$ for $k = 1$.
+Case 2 can be applied here. \\
+$\therefore T(n) = \theta(nlog^2 n)$\\
+
+\textbf{Recursion tree method:} \\
+Number of nodes at each level $l\ is\ 2^l$. \\
+Cost of each level $l\ is\ c\ 2^l\ \left( \frac{n}{2^l} log\frac{n}{2^l}\right) = c n log\frac{n}{2^l}$ \\
+Number of levels $= log_2 n$ 
+\begin{align*}
+    Total\ cost\ &= \sum_{l=0}^{log_2 n} c n log\frac{n}{2^l} \\
+                 &= c n \sum_{l=0}^{log_2 n} log\frac{n}{2^l} \\
+                 &= c n \sum_{l=0}^{log_2 n} \left(log_2 n - log_2 2^l \right) \\
+                 &= c n \sum_{l=0}^{log_2 n} log_2 n - c n \sum_{l=0}^{log_2 n} l \\
+                 &= c n log_2 (n) * (log_2(n) + 1) - c n \left( \frac{log_2(n) * (log_2 n + 1)}{2}\right) \\
+                 &= \frac{c n}{2} \left(log_2(n) * (log_2 n + 1)\right) \\
+                 &= \theta(nlog^2 n)
+\end{align*}
+
+\newpage
+\problempart % Problem 1d
+$T(n) = T(n-2) + \theta(n)$ \\
+\textbf{Substitution method:} \\
+Guess, $T(n) = cn^2$ \\
+
+\textit{Base case:}  $n = 1$, \\
+since $T(1) = \theta(1) = c(1^2)$ \\
+therefore base case is true. \\
+
+\textit{Inductive case:} Assume $T(n-2) = c (n-2)^2$ \\
+Then, \\
+\begin{align*}
+    T(n) &= T(n-2) + \theta(n) \\
+         &= c(n-2)^2 + \theta(n) \\
+         &= \theta(n^2) = c(n^2)
+\end{align*}
+
+$\therefore T(n) = \theta(n^2)$
+\end{problemparts}
+
+\newpage
+\problem  % Problem 2
+
+\begin{problemparts}
+\problempart % Problem 2a
+Insertion sort and Selection sort are both \textbf{in-place} sorting algorithms. \\
+Selection sort performs $n$ swaps in the worst case. Cost of each swap is $nlog(n)$. \\ 
+Hence the worst case time complexity of selection sort is $O(n^2 log(n))$ \\
+Insertion sort performs $n^2$ swaps in worst case. And cost of each swap is $nlog(n)$. Hence the worst case time complexity of insertion sort is $O(n^3 log(n))$. \\
+
+$\therefore$ \textbf{Selection sort} is best.
+\\
+\problempart % Problem 2b
+Selection sort and Insertion sort both requires $n^2$ comparisons in worst case. Cost of each comparison is $O(log(n))$. \\
+Hence the total cost of $O(n^2 log(n))$. \\
+
+Calculating total cost of merge sort: \\
+\[T(n) = 2T(\frac{n}{2}) + n log (n) \]
+Applying case 2 of \textit{Master theorem}, the total cost of merge sort where each comparison takes $O(log(n))$ time,
+\[T(n) = \theta(n log^2 (n)\] 
+
+$\therefore$ \textbf{Merge sort} is best.
+\\
+\problempart % Problem 2c
+Selection sort and Merge sort both are independent of the array being already sorted. \\
+Insertion sort requires $O(n + number\ of\ adjacent\ swaps)$ time. i.e \\
+$O(n + log(log(n)))$ \\
+Hence, \textbf{insertion sort} is best in this case.
+
+\end{problemparts}
+
+\newpage
+\problem  % Problem 3
+If Picard starts from northern end of the island, i.e $0_{th}\  kilometer$,  \\
+\[i = 0 \] 
+Then in each step, teleport to $2^i$ and increment $i$ by $1$ in until $k <= 2^i$ \\
+Perform a binary search from $2^{i-1}$ to $2^i$ kilometers and find the location of Picard i.e $k$.
+
+If Picard starts from southern end of the island, i.e $(n-1)_{th}\ kilometer$, \\
+\[i = n-1\]
+Then in each step, teleport to $2^i$ and decrement $i$ by 1 until $k >= 2^i$. \\
+Perform a binary search from $2^i$ to $2^{i+1}$. \\
+
+From Start to finding $i$ such that either $(2^{i-1} < k <= 2^i)$ or $(2^i <= k < 2^{i+1})$ is true, \\
+takes $O(log(n))$ time.
+Then finding the location of Picard between the shorter range does not require more than $O(log(n))$ time. \\
+
+$\therefore$ Total time complexity of finding Picard on the island is $O(log(n))$.
+
+\newpage
+\problem  % Problem 4
+A sorted array and a Doubly linked list will be used to build the database. \\
+Each element of Doubly linked list is a message. \\
+Each element of Sorted array is an Object which contains two things:
+\begin{itemize}
+    \item Viewer ID
+    \item Dynamic array of pointers to messages by user in Doubly linked list
+\end{itemize}
+\\
+\textbf{build(V)}:\\
+Building a sorted array takes $O(nlog(n))$ time and creating an empty Doubly linked list takes constant time. \\
+
+\textbf{send(v, m)}: \\
+To send message m to the chat from viewer with ID $v$, \\
+\begin{itemize}
+    \item Find the viewer $v$ in sorted array in $O(log(n))$ time.
+    \item if the Dynamic array associated with viewer is empty, return.
+    \item Otherwise, Add the message at the end of Doubly linked list in $O(1)$ time,
+    \item and store the message pointer $m_p$ pointing to the message in Doubly linked list to the dynamic array corresponding the viewer $v$ in $O(1)$ time.
+\end{itemize}
+$\therefore$ this operation takes $O(log(n))$ time in worst case. \\
+
+\textbf{recent(k)}: \\
+Return the last k entries of Doubly Linked List in $O(log(k))$ time. \\
+
+\textbf{ban(v)}: \\
+To ban a viewer $v$, follow the steps:
+\begin{itemize}
+    \item Find the user in sorted array in $O(log(n))$ time.
+    \item Delete the messages sent by the user one by one, by getting the message pointers, delete the message pointed by message pointer, and then delete the message pointer from the dynamic array.
+\end{itemize}
+
+\newpage
+\problem  % Problem 5
+\textit{This one is hard :( Will do it later}
+\begin{problemparts}
+\problempart % Problem 5a
+\problempart % Problem 5b
+\problempart 
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
