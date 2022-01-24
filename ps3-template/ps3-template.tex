@@ -1,0 +1,329 @@
+%
+% 6.006 problem set 3 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{3}
+
+\title{6.006 Problem Set \theproblemsetnum}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Vivek Verma
+
+\medskip
+
+{\bf Collaborators:} None
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a \\
+\begin{align*}
+    0 | &\rightarrow 36 \rightarrow 92 \\
+    1 | &\rightarrow  \\
+    2 | &\rightarrow \\
+    3 | &\rightarrow \\
+    4 | &\rightarrow 56 \\
+    5 | &\rightarrow 47 \rightarrow 61 \rightarrow 33 \\
+    6 | &\rightarrow 52
+\end{align*}
+
+
+\problempart % Problem 1b
+Initialize c = 7, because if c is less than 7, then there cannot be no-collision according to pigeonhole principle. \\
+Manually building the hash table for c =7, 8, 9, 11, 12 leads to collision. \\
+c = 13 is the smallest value of c for which there is no collision. \\
+Hash table for c = 13 is given by , \\
+\begin{align*}
+    0 | &\rightarrow 36 \\
+    1 | &\rightarrow 92\\
+    2 | &\rightarrow 33\\
+    3 | &\rightarrow 61\\
+    4 | &\rightarrow 52 \\
+    5 | &\rightarrow 56 \\
+    6 | &\rightarrow 47
+\end{align*}
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 2
+If $k_1$ is the ID of Rory and $k_2$ is the ID of Tiri and chosen hash function is $h$, then they will be assigned same rooms if and only if \\
+\[h(k_1) = h(k_2) \]
+
+\begin{problemparts}
+\problempart % Problem 2a
+\begin{align*}
+    & \quad h_{ab}(k_1) = h_{ab}(k_2) \\
+    &\implies (ak_1 + b)\ mod\ n = (ak_2 + b)\ mod\ n \\
+    &\implies (ak_1 + b) \equiv (ak_2 + b)\ mod\ n  \quad \quad [\because x\ mod\ n = y\ mod\ n \iff x \equiv y\ mod\ n] \\
+    &\implies k_1 \equiv k_2\ mod\ n
+\end{align*}
+
+i.e Rory and Tiri are guranteed to be roommates if the difference between their IDs is divisible by n.
+\problempart % Problem 2b
+\begin{align*}
+    & \quad h_a(k_1) = h_a(k_2) \\
+    &\implies \left(\floor{\frac{k_1 n}{u}} + a \right)\ mod\ n = \left(\floor{\frac{k_2 n}{u}} + a \right)\ mod\ n\\
+    &\implies \left(\floor{\frac{k_1 n}{u}} + a \right) \equiv \left(\floor{\frac{k_2 n}{u}} + a \right)\ mod\ n \quad \quad [\because x\ mod\ n = y\ mod\ n \iff x \equiv y\ mod\ n] \\
+    &\implies \floor{\frac{k_1 n}{u}} \equiv \floor{\frac{k_2 n}{u}}\ mod\ n \\
+\end{align*}
+
+Since $u \gg 2n$, the ratio $\frac{u}{n}$ will be less than 1 and almost close to 0. \\
+If $k_1$ and $k_2$ are chosen to be as close as possible, then because of the floor function, the expressions $\floor{\frac{k_1 n}{u}}$ and $\floor{\frac{k_1 n}{u}}$ will both be zero. \\
+
+For example, Consider n = 10, u = 1000 and a = 42, \\
+If Rory choose $k_1 = 57$ and Tiri choose $k_2 = 58$, then
+
+\[h_a(k_1) = \left(\floor{\frac{57 * 10}{1000}} + 42\right)\ mod\ n = (\floor{0.57} + 42)\ mod\ n = 42\ mod\ n\]
+\[h_a(k_2) = \left(\floor{\frac{58 * 10}{1000}} + 42\right)\ mod\ n = (\floor{0.58} + 42)\ mod\ n = 42\ mod\ n\]
+
+$\therfore$ Rory and Tiri are guaranteed to be roommates if they choose the closest possible values $k_1$ and $k_2$.
+
+\newpage
+\problempart % Problem 2c
+Since the given hash function is universal, the probability of collision for any two keys picked from the possible values is atmost $\frac{1}{n}$. \\
+
+$\therefore$ there is no such choice of $k_1$ and $k_2$ which can guarantee that Rory and Tiri will be roommates. \\
+And the highest probability they could possibly achieve of being roommates is $\frac{1}{n}$ 
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 3
+
+\begin{problemparts}
+\problempart % Problem 3a
+\textit{--- After looking at solution ---} \\
+Each string is $16\ceil{log_4(\sqrt{n})}$ characters long. \\
+And 1 character is 8 bits long. \\ 
+Maximum value of integer representation of string of size $n$ will be $2^{16 \ceil{log_4 \sqrt{n}} * 8} = O(n^{33})$. \\
+Hence the range of integer values to sort is [0, $n^{33}$]. \\
+$\therfore$ Radix sort is efficient here with time complexity $O(n + 33 n)$ \\
+
+\problempart % Problem 3b
+Here $u = 800,000$. \\
+If we choose $n = 10$ and $c = 6$, then $u < n^c$. \\
+$\therfore$ Radix sort will be efficient with time complexity $O(n + cn log_n n) = O(n + cn)$. \\
+
+\problempart % Problem 3c
+Given, $thickness = \frac{m}{n^3}$ \\
+with range [0, 4]. \\
+If thickness is multiplied by $n^3$, then range will be $[0, 4n^3]$. \\
+And since $u = 4n^3 < n^c for c = 4$, Radix sort will be efficient sorting algorithm with time complexity $O(n + c n log_n 4n) = O(n + c n (log_n4 + 1))$. \\
+
+\problempart % Problem 3d
+Since comparisons are allowed in $O(1)$ time and the most efficient sorting algorithm in Comparison model is Merge sort. \\
+$\therefore$ Merge sort will be efficient with time complexity $O(nlgn)$.
+\end{problemparts}
+\newpage
+
+\problem  % Problem 4
+
+\begin{problemparts}
+\problempart % Problem 4a
+
+\begin{enumerate}
+    \item Build a hash table $H$ with keys as $b_i \in B$ and values as $i \in [0, n-1]$.
+    \item Run a loop over B with loop variable $i = [0, n-1]$.
+    \item find $r - b_i$ in H:
+    \begin{itemize}
+        \item if found, return $|i - H[r - b_i]| < \frac{n}{10}$.
+        \item else, return false.
+    \end{itemize}
+\end{enumerate}
+
+Building a hash table takes $O(n)$ expected time. \\ 
+Looping over B takes $O(n)$ time. \\
+$find(r - b_i)$ takes O(1) expected time. \\
+
+$\therefore$ The above algorithm requires $O(n)$ expected time.
+\\
+\problempart % Problem 4b
+Since $r < n^2$. And $b_i >= r$ are useless. \\
+Discard all the $b_i \in B\ such\ that\ b_i > r\ \forall\ i \in [0, n-1]$, and for remaining, replace $b_i\ with\ (b_i, i)\ $ to keep track of original indices. \\
+
+Consider the new range of B to be $[0, k-1]$. \\
+Using Radix sort to sort B. \quad \quad $[\because k < r < n^2]$. \\
+
+Using two-finger algorithm: \\
+Initialize two variables $s=0$ and $t=k-1$. \\
+There are three cases:
+\begin{enumerate}
+    \item $b_s + b_t == r$ \\
+        If $|i - j| < \frac{n}{10}$, return true, where $i$ and $j$ are corresponding second tuple entries of $b_s$ and $b_t$ respectively.
+    \item $b_s + b_t < r$ \\
+        Increment $s$ by 1 because there cannot be any lower value of $b_s$ which satisfies $b_s + b_t = r$, since $b_t$ is maximum.
+    \item $b_s + b_t > r$ \\
+        Decrement $t$ by 1 because there can be any lower value of $b_t$ which satisfies $b_s + b_t = r$, since $b_s$ is minimum. 
+\end{enumerate} 
+if $s == t$, return false.\\
+
+Radix sort requires $O(n + 2n)$ worst-case time for sorting. \\
+Running two finger algorithm over B requires $O(n)$ worst-case time. \\
+
+$\therefore$ The above algorithm requires $O(n)$ worst-case time.
+
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 5
+
+\begin{problemparts}
+\problempart % Problem 5a
+Number of contiguous substrings of A = $\abs{A} - k + 1$ \\
+
+For all the contiguous substrings of A, there can be a frequency table. \\
+Then, a hash table can be built, \\
+with $<\textbf{key} = frequency\ table,\ \textbf{value} = Number\ of\ substrings\ with\ same\ frequency\ table>$. \\
+
+To build the frequency table for first substring of A, a loop can be used to build the frequency table in $O(k)$ time. \\
+Then to build subsequent frequency tables for other substrings of A, we can keep track of the last frequency table and just decrement value of alphabet at index $i-1$ and increment value of alphabet $i+k-1$ in previous frequency table in $O(1)$ time. \\ 
+\textit{where,} $i$ is the starting index of current substring and $i+k-1$ is the ending index of current substring. \\
+
+After building each frequency table, check if it exists in the hash table. If it does, then increment its value by 1, otherwise add the frequency table to the hash table as key and corresponding value 1. \\
+
+Performing the operation for given B of size k: \\
+Create a frequency table of B in $O(k)$ time. and check whether the frequency table exists in hash table in $O(1)$ expected time. If it exists, return its value. \\
+
+To build all the frequency tables and storing their counts in hash table takes $O(|A|)$ expected time. \\
+The operation to count the anagram substring count of B takes $O(k)$ expected time.\\ 
+\problempart % Problem 5b
+
+Build the data structure named $H$ for string $T$ in $O(\abs{T})$ time. \\
+Run a loop over $S$ and for each $s_i : i \in [0, n)$, find $a_i$ in $O(k)$ expected time. \\
+Running the loop $n$ times implies that building array $A = (a_0, ..., a_{n-1})$ will require $O(nk)$ expected time. \\
+
+$\therefore$ Total time to run the algorithm will be $O(\abs{T} + nk)$.
+\newpage
+\problempart 
+\begin{lstlisting}
+def count_anagram_substrings(T, S):
+    '''
+    Input:  T | String
+            S | Tuple of strings S_i of equal length k < |T|
+    Output: A | Tuple of integers a_i:
+              | the anagram substring count of S_i in T
+    '''
+    A = []
+
+    k = len(S[0])
+    get_idx = lambda alpha: ord(alpha) - ord('a')
+
+    # initialize hash table to store frequency tables and their counts
+    H = {}
+
+    # variable to hold the last frequency table
+    prev_ft = None
+    for i in range(len(T) - k + 1):
+        # build the first frequency table by looping over substring
+        # in O(k) time
+        if i == 0:
+            ft = [0] * 26
+            for j in T[i:i+k]:
+                ft[get_idx(j)] += 1
+        # build other substrings using previous frequency table
+        # in O(1) expected time
+        else:
+            ft = list(prev_ft)
+            ft[get_idx(T[i-1])] -= 1
+            ft[get_idx(T[i+k-1])] += 1
+
+        # convert list to tuple to make it hashable
+        ft = tuple(ft)
+
+        # incrment the count of frequency table in the hash table
+        # or add it if doesn't exist
+        if ft in H:
+            H[ft] += 1
+        else:
+            H[ft] = 1
+
+        # set current frequency table as previous frequency table
+        # for next substring
+        prev_ft = ft
+
+    for s_i in S:
+        # build frequency table for s_i
+        ft = [0] * 26
+        for j in s_i:
+            ft[get_idx(j)] += 1
+
+        ft = tuple(ft)
+
+        # find its value in data structure and append to A
+        A.append(H[ft])
+
+    return tuple(A)
+
+\end{lstlisting}
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
