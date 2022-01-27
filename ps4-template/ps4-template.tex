@@ -1,0 +1,256 @@
+%
+% 6.006 problem set 4 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{4}
+
+\title{6.006 Problem Set \theproblemsetnum}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Vivek Verma
+
+\medskip
+
+{\bf Collaborators:} None
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+Keys of nodes that are not height-balanced: 16, 37. \\
+$skew(16) = height(37) - height(3) = 2 - 0 = 2$ \\
+$skew(37) = height(Nothing) - height(35) = -1 - 1 = -2$
+
+\problempart % Problem 1b
+\\
+\begin{itemize}
+
+    \item T.insert(2) \\ 
+    \includegraphics[width=0.5\textwidth]{1b1.jpg} \\
+    \item T.delete(49) \\
+    \includegraphics[width=0.5\textwidth]{1b2.jpg} \\
+    \newpage
+    \item T.delete(35) \\
+    \includegraphics[width=0.5\textwidth]{1b3.jpg} \\
+    \item T.insert(85) \\
+    \includegraphics[width=0.5\textwidth]{1b4.jpg} \\
+    \item T.delete(84) \\
+    \includegraphics[width=0.5\textwidth]{1b5.jpg}
+\end{itemize}
+
+\newpage
+\problempart % Problem 1c
+\begin{itemize}
+    \item right\_rotate(16) : Not height-balanced.\\
+    \includegraphics[width=0.5\textwidth]{rr_16.jpg} \\
+    \item left\_rotate(16) : Not height-balanced.\\
+    \includegraphics[width=0.5\textwidth]{lr_16.jpg} \\
+    \item right\_rotate(37) : Height-balanced.\\
+    \includegraphics[width=0.5\textwidth]{rr_37.jpg} \\
+    \item left\_rotate(37) : Not possible
+\end{itemize}
+\end{problemparts}
+
+\newpage
+\problem  % Problem 2
+\begin{problemparts}
+\problempart % Problem 2a
+$[4, 12, 8, 21, 14, 9, 17]$ \\
+\includegraphics[width=0.5\textwidth]{2a.jpg} \\
+Min-heap. \\
+\problempart % Problem 2b
+$[701, 253, 24, 229, 17, 22]$ \\
+\includegraphics[width=0.5\textwidth]{2b.jpg} \\
+Max-heap.
+\newpage
+\problempart % Problem 2c
+$[2, 9, 13, 8, 0, 2]$ \\
+\includegraphics[width=0.5\textwidth]{2c.jpg} \\
+Neither. \\
+3 swaps need to be performed to convert to min-heap:
+\begin{itemize}
+    \item Swap 1: \\
+    \includegraphics[width=0.5\textwidth]{2c1.jpg}
+    \item Swap 2: \\
+    \includegraphics[width=0.5\textwidth]{2c2.jpg}
+    \item Swap 3: \\
+    \includegraphics[width=0.5\textwidth]{2c3.jpg}
+\end{itemize}
+Resulting min-heap: \\
+\includegraphics[width=0.5\textwidth]{2c4.jpg}
+\newpage
+\problempart % Problem 2d
+$[1, 3, 6, 5, 4, 9, 7]$ \\
+\includegraphics[width=0.5\textwidth]{2d.jpg} \\
+\end{problemparts}
+
+\newpage
+\problem  % Problem 3
+\begin{problemparts}
+\problempart % Problem 3a
+Build a max-heap keyed on the score of garden.
+This takes $O(\abs{A})$ time. \\
+Call $delete\_max()$ function on the max-heap $k$ times. \\
+Each call to $delete\_max()$ takes $log\abs{A}$ time, Hence $k$ calls requires $klog\abs{A}$ time. \\
+
+$\therefore$ Total time complexity is $O(\abs{A} + klog\abs{A})$
+\problempart % Problem 3b
+Initialize an empty linked list $L$. \\
+Start at the root of the max-heap A. If root is greater than $x$, add the root to $L$, otherwise, return.
+
+Recursively call function on $root.left$ and $root.right$. \\
+There will be total $\theta(n_x)$ recursive calls and adding an element to linked list costs $O(1)$ time. \\
+
+$\therefore$ Total time complexity is $O(n_x)$.\\
+\end{problemparts}
+
+\newpage
+\problem  % Problem 4
+
+Data structures:
+\begin{itemize}
+    \item \textbf{Max-heap} (M) of solar farms stored as tuples $(s_i, a_i) \in S$ keyed by available capacity $(a_i)$.
+    \item \textbf{Hash table} $(H_1)$ to map buildings to solar farm i.e  $b_j$ to $s_i$. 
+    \item One more \textbf{Hash table} $(H_2)$ to map solar farms $(s_i)$ to Set of buildings connected to it. With each $s_i$ the pointer to node corresponding to it is also stored.
+\end{itemize}
+
+Operations:
+\begin{itemize}
+    \item $initialize(S)$ \\
+    Initializing a Max-heap with solar $S = ((s_0, c_0), ..., (s_{n-1}, c_{n-1}))$ requires $O(n)$ time. \\
+    Building empty $H_1$ and $H_2$ requires $O(1)$ time.
+    
+    $\therefore$ Total time to initialize database requires $O(n)$ worst-case time.
+    \item $power\_on(b_j, d_j)$ \\
+    Call $delete\_max()$ on $M$, to get the solar farm with maximum available capacity. \\ 
+    If the farm's available capacity minus building's demand is less than zero, then insert the farm back into $M$ and return \textit{"No such solar farm exists."} \\
+    Otherwise, add the building's name and solar farm's ID $<key = b_j, value = s_i>$ to $H_1$. subtract the building's demand $d_j$ from the farm's available capacity $a_i$ and insert the tuple $(s_i, a_i)$ back into $M$. Get the pointer at which the tuple is stored in max-heap. Update the pointer of $s_i$ in $H_2$ and add the building $b_j$ to Set corresponding to $s_i$ in $H_2$.
+    
+    Deleting the max. element and inserting an element in max-heap both requires $O(log(n))$ time. \\
+    Updating an entry in hash-table $H_2$ requires $O(1)$ time. \\
+    Adding an element to set corresponding to $s_i$ also requires $O(1)$ time.
+    
+    $\therefore$ Total time complexity is $O(log(n))$.
+    
+    \item $power\_off(b_j)$ \\
+    Remove building $b_j$ from $H_1$ and Get the value of $s_i$ corresponding to it. $O(1)$ time. \\
+    Remove $b_j$ from the Set corresponding to $s_i$ in $H_2$ in $O(1)$ time . Get the pointer to $s_i$'s location in max-heap. \\
+    Find $s_i$ in max-heap and increase it's available capacity by $d_j$ in $O(1)$ time. Max-heapify $O(log(n))$ to maintain the invariant.
+    
+    $\therefore$ Total time complexity is $O(log(n))$ time.
+    \item $customers(s_i)$ \\
+    Get the set corresponding to $s_i$ from $H_2$ in $O(1)$ time. \\
+    Iterate over the set and output all the buildings' names in $O(k)$ time, where $k$ is the size of the set.
+    
+    $\therefore$ Total time complexity is $O(k)$.
+\end{itemize}
+\newpage
+\problem  % Problem 5
+
+Data structure: \\
+* A Sequence AVL tree can be used to store the transformation matrices $\mathcal{M} = (M_0, ..., M_{n-1})$. \\
+Each $node$ can be augmented with two entries:
+\begin{itemize}
+    \item $m_l$ : Matrix multiplication of subtree rooted at $node.left$.
+    \item $m_r$ : Matrix multiplication of subtree rooted at $node.right$.
+\end{itemize}
+
+
+Operations:
+\begin{itemize}
+    \item $initialize(\mathcal{M})$ \\
+    Building a Sequence AVL tree requires $O(n)$ time. And augmentation entries can be added to each node in $O(1)$ time. 
+    
+    $\therefore$ Total time complexity is $O(n)$.
+    
+    \item $update\_joint(k, M)$ \\
+    Find the node at index $k$ in $O(log(n))$ time. \\
+    Update the matrix stored at the node in $O(1)$ time. \\
+    Update the augmentations of the parents repeatedly until the root of the tree in $O(log(n))$ time.
+    
+    $\therefore$ Total time complexity is $O(log(n))$.
+    
+    \item $full\_transformation()$ \\
+    Get the matrix $m$ stored at root node of the tree in $O(1)$ time. \\
+    Compute $m_l\ x\ m\ x\ m_r$ in $O(1)$ time and return.
+    
+    Total time complexity is $O(1)$.
+\end{itemize}
+
+\newpage
+\problem  % Problem 6
+\begin{problemparts}
+\problempart % Problem 6a
+\problempart % Problem 6b
+\problempart % Problem 6c
+\problempart Submit your implementation to {\small\url{alg.mit.edu}}.
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
