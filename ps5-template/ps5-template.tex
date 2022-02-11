@@ -1,0 +1,187 @@
+%
+% 6.006 problem set 5 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{5}
+
+\title{6.006 Problem Set \theproblemsetnum}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Vivek Verma
+
+\medskip
+
+{\bf Collaborators:} None
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+
+Graph \\
+\includegraphics[width=0.5\textwidth]{1.jpg}
+
+\problempart % Problem 1b
+\{ A: [B], \\
+   B: [C, D], \\
+   C: [E, F], \\
+   D: [E, F], \\
+   E: [], \\
+   F: [D, E] \}
+   
+\newpage
+\problempart % Problem 1c
+BFS \\
+Order of visit: [A, B, C, D, E, F] \\
+\includegraphics[width=0.5\textwidth]{2_bfs.jpg} \\
+
+DFS \\
+Order of visit: [A, B, C, E, F, D] \\
+\includegraphics[width=0.5\textwidth]{2_dfs.jpg}
+
+\problempart % Problem 1d
+Topological order after removing (D, F): [A, B, C, F, D, E] \\
+Topological order after removing (F, D): [A, B, C, D, F, E] 
+
+\end{problemparts}
+
+\newpage
+\problem  % Problem 2
+
+Construct a Graph G where power plants and buildings are nodes of the graph and Wires are edges. \\
+
+Since there are $n$ power plants and there can be atmost one wire connected to each power plant. \\
+Also there are $n^2$ buildings and each building has to be powered only once. Therefore the number of wires are upper bounded by $O(n^4)$.
+\[\because \abs{E} \le \left( \frac{\abs{V}}{2} \right)\]
+
+The power plant can be connected to one building and that building in turn may be recursively connected to zero or more buildings.
+
+Maximum depth of recursion represents most number of buildings powered by the power plant. \\
+
+Using Full DFS/BFS, connected components of the graph can be computed in $O(n^4)$ time.
+
+Then size of each connected component can be computed in $O(n^2)$ time and The power plant present in maximum size connected component should be the one where emergency generator should be installed.
+
+\newpage
+\problem  % Problem 3
+
+Construct a graph G, where nodes are the friends and vertices represents that two nodes of the edge short-circuit each other. \\
+
+A \textbf{bipartite graph} is a graph whose vertices can be divided into two sets such that in each set, there is not an edge between any two pair of vertices of that set.
+
+If the graph G is a bipartite graph, then the nodes can be divided into two sets, such that in each set, there is not an edge between any pair of vertices.
+
+To check whether G is bipartite or not, the two coloring algorithm can be used which is as follows:
+
+Modifying BFS,
+
+Initialize two colors $c_1$ and $c_2$. \\
+Assign color $c_1$ to the source vertex. \\
+Then assign $c_2$ to the neighbors of source. \\
+Assign $c_1$ to the neighbors of neighbors of source vertex and so on.
+
+If for any vertex, there is a neighbor which is colored same as the current vertex, then the graph is not bipartite since there is an odd cycle.
+
+The algorithm runs in $O(n)$ time since there are $n$
+ edges in the graph.
+\newpage
+\problem  % Problem 4 
+\textit{--- After looking at solution ---} \\
+
+Construct a graph G where vertices are squares of the grid, i.e each vertex is represented by $(r, c)\ r,c \in \{0, ..., n\}$. \\
+
+Connect vertices $v_1 = (r, c-1)$ and $v_2 = (r, c)$ when $v_2$ is owned by some farmer and $v_1$ and $v_2$ are owned by different farmers. \\
+And connect vertices $v_3 = (r-1, c)$ and $v_4 = (r, c)$ when $v_4$ is owned by some farmer and $v_3$ and $v_4$ are owned by different farmers. \\
+
+The graph now has the property that a path between any two vertices is a route on the map that does not tramble crops.
+
+For each $euphris$ vertex $(r, c)$, mark vertices $\{(r, c), (r+1, c), (r, c+1), (r+1, c+1)\}$ as $E$. Mark in the same way for $tigrates$ vertices as $T$.
+
+Combine vertices marked as $E$ in a supernode $S$. Now run BFS from $S$ to vertices in $T$ in $O(n^2)$ time. 
+ 
+Return the shortest path from $S$ to $T$ by traversing the parents.
+
+$\because$ there are $O(n^2)$ edges and running BFS takes $O(n^2)$ time. Traversing back to find shortest path takes $O(n^2)$ time. $\therefore$ Total running time is $O(n^2)$.
+
+
+\newpage
+\problem  % Problem 5
+
+\newpage
+\problem  % Problem 6
+
+\begin{problemparts}
+\problempart % Problem 6a
+\problempart % Problem 6b
+\problempart % Problem 6c
+\problempart Submit your implementation to {\small\url{alg.mit.edu}}.
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
