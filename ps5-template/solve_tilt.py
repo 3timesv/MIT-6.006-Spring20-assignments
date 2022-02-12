@@ -4,11 +4,42 @@ def solve_tilt(B, t):
             t | Tuple t = (x, y) representing the target square
     Output: M | List of moves that solves B (or None if B not solvable)
     '''
+    # Base case i=0
     M = []
-    ##################
-    # YOUR CODE HERE #
-    ##################
-    return M
+    P = {B: None}
+    L = []
+    L.append([B])
+
+    # Inductive case
+    while L[-1]:
+        # To compute current level
+        l = []
+
+        # iterate over vertices u of previous level
+        for u in L[-1]:
+            # get the neighbors of u as v
+            for direction in ['up', 'down', 'left', 'right']:
+                v = move(u, direction)
+
+                # if v does not appear in any level before
+                if v not in P:
+                    # set parent of v equals to u
+                    P[v] = (u, direction)
+                    # append v to the current level
+                    l.append(v)
+
+                    # if v is the target configuration
+                    if v[t[1]][t[0]] == 'o':
+                        # iteratively get the parents of v until source vertex is reached
+                        while P[v]:
+                            v, direction = P[v]
+                            M.append(direction)
+                        # reverse the path
+                        M.reverse()
+                        return M
+        # append the current level to levels
+        L.append(l)
+    return None
 
 ####################################
 # USE BUT DO NOT MODIFY CODE BELOW #

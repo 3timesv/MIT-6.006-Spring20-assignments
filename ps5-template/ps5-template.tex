@@ -177,9 +177,87 @@ $\because$ there are $O(n^2)$ edges and running BFS takes $O(n^2)$ time. Travers
 
 \begin{problemparts}
 \problempart % Problem 6a
+
+For an empty $n$ x $n$ board, there are $n^2$ positions. 
+If $b$ fixed obstacles are placed on the board, then there are $n^2 - b$ available positions for the sliders. \\
+Choosing $s$ positions from $n^2 - b$ available positions is the number of possible configurations of the board. i.e \\
+
+$\binom{n^2-b}{s}$ =   $\frac{(n^2 - b)}{(n^2 - b - s)! s!}$ = $\frac{1}{s!}\prod_{i=0}^{s-1} (n^2 - b - i)$ 
+
 \problempart % Problem 6b
+
+After a single move the slider will either be at top row, bottom row, left column or right column (assuming no obstacle). \\
+Let's consider the last row/column as $n-1$ row/column. If the slider after the move shifts to the $n-1$ row/column, then there could be $0,...,n-2$ positions from which it could have before. Similarly for leftward/rightward move, there can be $n-1$ positions from which from which the slider could move to left or right column. 
+$\therefore$ the lower bound on number of predecessors of B are $n^s$ i.e $\Omega (n^s)$
+
+The board configuration B can take 4 possible moves, left, right, down, up. If the reverse the move, the board will be in exact previous state. $\therefore$ there are $O(1)$ successors of a board configuration. 
+
 \problempart % Problem 6c
-\problempart Submit your implementation to {\small\url{alg.mit.edu}}.
+\textit{--- After looking at solution ---} \\
+A graph G will be constructed as we compute next states from the source state. \\
+
+Nodes of the graph are configurations and edges of the graph are moves. \\
+
+We will run BFS on G from the source configuration. and construct the graph as next configurations are computed. \\
+
+If the target configuration is after $k$ moves, then by definition of BFS, it will take $k$ moves to reach target configuration from the source configuration. \\
+
+At any configuration, there are $r=4$ possible moves. If the target configuration is after $k$ moves, then $O(r^k)$ configurations are explored during the search. 
+
+If B is not solvable, then every configuration may need to be searched, and there are total $C(n, b, s)$ configurations. \\
+
+Also each move takes $O(n^2)$ time. \\
+
+$\therefore$ Total time complexity is $O(n^2 min\{r^k, C(n, b, s)\})$
+
+\newpage
+\problempart 
+
+\begin{lstlisting}
+def solve_tilt(B, t):
+    '''
+    Input:  B | Starting board configuration
+            t | Tuple t = (x, y) representing the target square
+    Output: M | List of moves that solves B (or None if B not solvable)
+    '''
+    # Base case i=0
+    M = []
+    P = {B: None}
+    L = []
+    L.append([B])
+
+    # Inductive case
+    while L[-1]:
+        # To compute current level
+        l = []
+
+        # iterate over vertices u of previous level
+        for u in L[-1]:
+            # get the neighbors of u as v
+            for direction in ['up', 'down', 'left', 'right']:
+                v = move(u, direction)
+
+                # if v does not appear in any level before
+                if v not in P:
+                    # set parent of v equals to u
+                    P[v] = (u, direction)
+                    # append v to the current level
+                    l.append(v)
+
+                    # if v is the target configuration
+                    if v[t[1]][t[0]] == 'o':
+                        # iteratively get the parents of v until 
+                        # source vertex is reached
+                        while P[v]:
+                            v, direction = P[v]
+                            M.append(direction)
+                        # reverse the path
+                        M.reverse()
+                        return M
+        # append the current level to levels
+        L.append(l)
+    return None
+\end{lstlisting}
 \end{problemparts}
 
 \end{problems}
